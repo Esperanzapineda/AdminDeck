@@ -6,10 +6,150 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
   url = env("DATABASE_URL")
+}
+
+enum ProductsStatus {
+  ACTIVE 
+  ARCHIVED //Archivado
+}
+
+enum OrderStatus {
+  PENDING //PENDIENTE
+  PAID //PAGADA
+  CANCELED //CANCELADO
+  DELIVERED //ENTREGADA
+  SENT //ENVIADO
+}
+
+enum PaymentStatus{
+  PAID //PAGADA
+  FAILED //FALLIDA
+  PENDING //PENDIENTE
+}
+
+//Login
+
+model User {
+  id String @id @default(uuid())
+  email String @unique
+  password String
+  name String?
+  orders Order[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+//Producto Y Inventario
+model Category {
+  id String @id @default(uuid())
+  name String
+  position Int @default(0)
+
+  parentId String?
+
+  //Relaciones
+  parent Category? @relation("CategoryToCategory", fields: [parentId], references: [id])
+  children Category[] @relation("CategoryToCategory")
+  
+  products Product[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+//Marca
+model Brand {
+  id String @id @default(uuid())
+  name String @unique
+  products Product[]
+}
+
+//Producto
+model Product {
+  id String @id @default(uuid())
+  name String
+  description String? @db.Text
+  gender String? //genero
+  status ProductsStatus @default(ACTIVE)
+
+  //Relaciones
+  categoryId String
+  category Category @relation(fields: [categoryId], references: [id])
+  brandId String? //marcaid
+  brand Brand? @relation(fields: [brandId], references: [id])
+
+  //opciones de producto
+  variants ProductVariant[]
+
+  //estadistcas de ventas
+  orderItems OrderItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+//variantes del producto
+model ProductVariant {
+  id String @id @default(uuid())
+  optionName String //talla, color, etc
+  optionValue String //valor 35, rojo
+  stock Int @default(0)
+  price Decimal @db.Decimal(10, 2)
+
+  productId String
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+//Ventas y Órdenes
+model Order {
+  id String @id @default(uuid())
+  orderNumber String @unique
+
+  //informacion del usuario
+  userId String?
+  user User? @relation(fields: [userId], references: [id])
+  clientName String
+  clientEmail String
+  shippingInfo String? @db.Text  //informacion de envio
+
+  //Total y estados
+  totalAmount Decimal @db.Decimal(10, 2)
+  status OrderStatus @default(PENDING)// Estado actual
+  paymentStatus PaymentStatus @default(PENDING) //estado del pago
+
+  //relaciones
+  items OrderItem[] //productos comprados
+  history OrderHistory[] //historial de modificaciones
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+//detalles de los prductos de la orden
+model OrderItem {
+  id String @id @default(uuid())
+  orderId String
+  order Order @relation(fields: [orderId], references: [id])
+
+  productId String
+  product Product @relation(fields: [productId], references: [id])
+
+  quantity Int
+  price Decimal @db.Decimal(10, 2) //Precio al momento de la compra
+}
+
+//Historial de modificacion y notas
+model OrderHistory {
+  id String @id @default(uuid())
+  orderId String
+  order Order @relation(fields: [orderId], references: [id])
+
+  status OrderStatus //estado en el momento
+  note String?
+  createdAt DateTime @default(now())
 }
