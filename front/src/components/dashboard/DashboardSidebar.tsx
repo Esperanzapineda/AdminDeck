@@ -30,13 +30,13 @@ const DasboardSidebar = () => {
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Panel De Administración</SidebarGroupLabel>
+          <SidebarGroupLabel className='bg-slate-200'>AdminDeck</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <Link href={item.title}>
+                    <Link href={item.url}>
                       <item.icon/>
                       <span>{item.title}</span>
                     </Link>
