@@ -1,6 +1,6 @@
 
 import DasboardSidebar from '@/components/dashboard/DashboardSidebar'
-import { Sidebar, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import React, { FC } from 'react'
 
 interface LayoutAuthProps {
