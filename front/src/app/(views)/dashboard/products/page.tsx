@@ -2,6 +2,9 @@ import { axiosApiBack } from '@/services/utils'
 import { Product, ProductApiResponse, ProductStatusEnum } from '@/services/utils/types'
 import { columns } from './components/columns'
 import TableProducts from './components/data-table'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
+import { Plus } from 'lucide-react'
 
 const getProducts = async () : Promise<Product[]> => {
     try {
@@ -35,7 +38,11 @@ const ProductsPage =  async () => {
         <div>
             <div>
                 <h2 >Productos</h2>
-                {/* Boton crear Producto */}
+                <Button asChild>
+          <Link href="/dashboard/products/create">
+            <Plus className="mr-2 h-4 w-4" /> Nuevo Producto
+          </Link>
+        </Button>
             </div>
         
             <div>

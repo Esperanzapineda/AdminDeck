@@ -2,29 +2,74 @@
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger, DropdownMenu } from "@/components/ui/dropdown-menu"
+import { axiosApiBack } from "@/services/utils"
 import { Product } from "@/services/utils/types"
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, MoreHorizontal, Package } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 
-const columns : ColumnDef<Product>[] = [
+const ActionCell = ({ product }: { product: Product }) => {
+    const router = useRouter();
+
+    const handleDelete = async () => {
+        try {
+            await axiosApiBack.delete(`/products/${product.id}`)
+            toast.success("Producto archivado correctamente")
+            router.refresh()
+        } catch (error) {
+            console.error("No se pudo archivar el producto", error)
+            toast.error("No se pudo archivar el producto")
+        }
+    }
+
+    return (
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Button variant={"ghost"} className="h-8 w-8 p-0">
+                    <span className="sr-only">Abrir menú</span>
+                    <MoreHorizontal className="h-4 w-4" />
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+                <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+                <DropdownMenuItem onClick={() => navigator.clipboard.writeText(product.id)}>
+                    Copiar ID
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                    <Link href={`/dashboard/products/${product.id}/edit`}>
+                        Editar Producto
+                    </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handleDelete} className="text-red-600 focus:text-red-600">
+                    Archivar / Eliminar
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
+    )
+}
+
+const columns: ColumnDef<Product>[] = [
     {
         accessorKey: 'image',
         header: 'Imagen',
-        cell: ({row}) => {
+        cell: ({ row }) => {
             const image = row.original.image
-            return(
-                <div>
+            return (
+                <div className="flex items-center justify-center">
                     {image ? (
                         <Image
                             src={image}
                             alt="Product Image"
                             width={50}
                             height={50}
+                            className="rounded-md object-cover"
                         />
-                    ): (
-                        <div>
-                            <Package/>
+                    ) : (
+                        <div className="h-[50px] w-[50px] bg-muted flex items-center justify-center rounded-md">
+                            <Package className="h-5 w-5 text-muted-foreground" />
                         </div>
                     )}
                 </div>
@@ -33,18 +78,21 @@ const columns : ColumnDef<Product>[] = [
     },
     {
         accessorKey: 'name',
-        header: ({ column}) => (
+        header: ({ column }) => (
             <Button variant={"ghost"} onClick={() => column.toggleSorting(column.getIsSorted() === "asc")} >
                 Nombre
-                <ArrowUpDown/>
+                <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
         ),
         cell: ({ row }) => (
-            <div>
-                <span>{row.getValue('name')}</span>
-                <span>{row.original.brand}</span>
+            <div className="flex flex-col">
+                <span className="font-medium">{row.getValue('name')}</span>
             </div>
         ),
+    },
+    {
+        accessorKey: 'brand',
+        header: 'Marca',
     },
     {
         accessorKey: 'category',
@@ -55,7 +103,7 @@ const columns : ColumnDef<Product>[] = [
         header: 'Estado',
         cell: ({ row }) => {
             const status = row.original.status
-            return(
+            return (
                 <Badge variant={status === 'ACTIVE' ? 'default' : "secondary"}>
                     {status === 'ACTIVE' ? 'Activo' : 'Archivado'}
                 </Badge>
@@ -67,7 +115,7 @@ const columns : ColumnDef<Product>[] = [
         header: ({ column }) => (
             <Button variant={"ghost"} onClick={() => column.toggleSorting(column.getIsSorted() === "asc")} >
                 Precio Base
-                <ArrowUpDown/>
+                <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
         ),
         cell: ({ row }) => {
@@ -76,48 +124,29 @@ const columns : ColumnDef<Product>[] = [
             const formatted = new Intl.NumberFormat('es-CO', {
                 style: 'currency',
                 currency: 'COP',
-                minimumFractionDigits: 2
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
             }).format(amount)
-            return <div> {formatted} </div>
+            return <div className="font-medium"> {formatted} </div>
         },
 
     },
     {
         accessorKey: 'stock',
-        header: 'Total en Stock',
+        header: 'Stock',
         cell: ({ row }) => {
             const stock = row.original.stock
-            return(
+            return (
                 <div>
-                    {stock} unidades
+                    {stock} uds.
                 </div>
             )
         },
     },
     {
         id: 'actions',
-        cell: ({ row }) => {
-            const product = row.original
-            return(
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant={"ghost"}>
-                            <span>Menú</span>
-                            <MoreHorizontal/>
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-                        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(product.id)}>
-                            Copiar ID
-                        </DropdownMenuItem>
-                        <DropdownMenuItem> Editar Producto </DropdownMenuItem>
-                        <DropdownMenuItem> Eliminar </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            )
-        }
+        cell: ({ row }) => <ActionCell product={row.original} />
     }
 ]
 
-export {columns}
+export { columns }
