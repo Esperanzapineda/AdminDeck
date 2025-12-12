@@ -61,4 +61,20 @@ export class OrdersService {
     });
   }
 
+  async update (id: string, updateOrderDto: any) {
+    return this.prisma.order.update({
+      where: { id },
+      data: updateOrderDto,
+      include: { items: { include: {product: true}}}
+    });
+  }
+
+  async remove (id:string){
+    return this.prisma.order.update({
+      where: { id },
+      data: { status: OrderStatus.CANCELED }
+
+    });
+  }
+
 }
