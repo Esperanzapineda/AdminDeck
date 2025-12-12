@@ -20,7 +20,7 @@ const items = [
   },
   {
     title: "Ventas",
-    url: "/dashboard/ventas",
+    url: "/dashboard/orders",
     icon: ShoppingCart,
   }
 ]
