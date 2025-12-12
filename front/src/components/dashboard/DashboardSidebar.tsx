@@ -10,7 +10,7 @@ const items = [
   },
   {
     title: "Categorias",
-    url: "/dashboard/categorias",
+    url: "/dashboard/categories",
     icon: Shapes,
   },
   {
