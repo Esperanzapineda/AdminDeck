@@ -8,11 +8,13 @@ import { useState } from "react";
 interface PropsDataTable<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
+    searchKey?: string
 }
 
 const TableProducts =<TData, TValue> ({
     columns,
-    data
+    data,
+    searchKey = 'name',
 }: PropsDataTable<TData, TValue>) => {
     const [storing, setStoring] = useState<SortingState>([]);
     const [columnFilteers, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -35,9 +37,9 @@ const TableProducts =<TData, TValue> ({
     <div>
         <div>
             <Input
-                placeholder="Filtrar por nombre"
-                value= {(table.getColumn('name')?.getFilterValue() as string) ?? ''}
-                onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
+                placeholder={`Filtrar por ${searchKey === 'clientName' ? 'cliente' : 'nombre'}...`}
+                value= {(table.getColumn(searchKey)?.getFilterValue() as string) ?? ''}
+                onChange={(event) => table.getColumn(searchKey)?.setFilterValue(event.target.value)}
             />
         </div>
         <div>
@@ -78,7 +80,7 @@ const TableProducts =<TData, TValue> ({
             <Button variant='outline' onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
                     Anterior
             </Button>
-            <Button variant='outline' onClick={() => table.nextPage()} disabled={!table.getCanNextPage}>
+            <Button variant='outline' onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
                 Siguiente
             </Button>
         </div>
