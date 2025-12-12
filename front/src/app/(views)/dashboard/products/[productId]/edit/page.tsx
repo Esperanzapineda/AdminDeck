@@ -1,7 +1,7 @@
 
 import { notFound } from "next/navigation";
 import EditProductForm from "../../components/edit-form";
-import { getProductById } from "@/services/utils/product.service";
+import { getProductById } from "@/services/product.service";
 
 interface EditPageProps {
   params: Promise<{
