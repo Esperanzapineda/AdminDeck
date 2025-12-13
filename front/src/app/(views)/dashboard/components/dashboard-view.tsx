@@ -30,7 +30,7 @@ export default function DashboardView({ stats }: DashboardViewProps) {
             <DollarSign />
           </CardHeader>
           <CardContent>
-            <div>{formatCurrency(stats.totalRevenue)}</div>
+            <div>{formatCurrency(stats.totalRenuene)}</div>
             <p>
               Total facturado
             </p>
