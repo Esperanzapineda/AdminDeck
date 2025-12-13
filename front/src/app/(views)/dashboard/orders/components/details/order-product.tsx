@@ -27,10 +27,10 @@ export function OrderProducts({ items }: OrderProductsProps) {
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead>Producto</TableHead>
-                            <TableHead className="text-center">Cant.</TableHead>
-                            <TableHead className="text-right">Precio</TableHead>
-                            <TableHead className="text-right">Total</TableHead>
+                            <TableHead className='text-background hover:text-foreground'>Producto</TableHead>
+                            <TableHead className="text-center text-background hover:text-foreground">Cant.</TableHead>
+                            <TableHead className="text-right text-background hover:text-foreground">Precio</TableHead>
+                            <TableHead className="text-right text-background hover:text-foreground">Total</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
