@@ -16,6 +16,7 @@ export class DashboardService {
         });
 
         const totalOrders = await this.prisma.order.count();
+        console.log("Total orders:", totalOrders);
 
         const totalProducts = await this.prisma.product.count({
             where: {
@@ -27,7 +28,10 @@ export class DashboardService {
             _sum: {stock: true}
         })
 
-        const totallClients = await this.prisma.user.count()
+        const totalClients = await this.prisma.user.count()
+        console.log("Total clients:", totalClients);
+
+        
 
         const recentSales = await this.prisma.order.findMany({
             take: 3,
@@ -47,7 +51,7 @@ export class DashboardService {
             totalOrders,
             totalProducts,
             totalExisteingStock: totalExisteingStock._sum.stock || 0,
-            totallClients,
+            totalClients: Number(totalClients) || 0,
             recentSales: recentSales.map(order => ({
                 id: order.id,
                 name: order.user?.name,
