@@ -10,6 +10,7 @@ import { axiosApiBack } from '@/services/utils';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { AuthCard } from '@/components/auth/AuthCard';
+import Link from 'next/link';
 
 const formSchema = z.object({
     name: z.string()
@@ -87,7 +88,9 @@ const RegisterForm = () => {
                         <FormItem>
                             <FormLabel>Nombre</FormLabel>
                             <FormControl>
-                                <Input placeholder='Escribe tu nombre' {...field}/>
+                                <Input placeholder='Escribe tu nombre' {...field}
+                                className='text-foreground'
+                                />
                             </FormControl>
                             <FormMessage/>
                         </FormItem>
@@ -101,7 +104,9 @@ const RegisterForm = () => {
                         <FormItem>
                             <FormLabel>Correo electronico</FormLabel>
                             <FormControl>
-                                <Input placeholder='Escribe tu correo' {...field}/>
+                                <Input placeholder='Escribe tu correo' {...field}
+                                className='text-foreground'
+                                />
                             </FormControl>
                             <FormMessage/>
                         </FormItem>
@@ -115,7 +120,9 @@ const RegisterForm = () => {
                         <FormItem>
                             <FormLabel>Contraseña</FormLabel>
                             <FormControl>
-                                <Input type='password' placeholder='Escribe tu contraseña' {...field}/>
+                                <Input type='password' placeholder='Escribe tu contraseña' {...field}
+                                className='text-foreground'
+                                />
                             </FormControl>
                             <FormMessage/>
                         </FormItem>
@@ -129,7 +136,9 @@ const RegisterForm = () => {
                         <FormItem>
                             <FormLabel>Confirma tu contraseña</FormLabel>
                             <FormControl>
-                                <Input type='password' placeholder='Escribe tu contraseña' {...field}/>
+                                <Input type='password' placeholder='Escribe tu contraseña' {...field}
+                                className='text-foreground'
+                                />
                             </FormControl>
                             <FormMessage/>
                         </FormItem>
@@ -138,12 +147,18 @@ const RegisterForm = () => {
                 <Button 
                     type='submit' 
                     disabled={isSubmitting} 
-                    className='w-full mt-4 bg-red-400 hover:bg-red-500'
+                    className='w-full mt-4'
                 >
                     {isSubmitting ? "Registrando.." : "Registrarse"}
                 </Button>
             </form>
         </Form>
+
+        <p className='text-foreground text-center mt-4'>
+        Ya tienenes cuenta
+        <Link href={'/login'}> <span className='text-red-500 hover:text-foreground'> Iniciar sesión</span></Link>
+        </p>
+
         </AuthCard>
     )
 }

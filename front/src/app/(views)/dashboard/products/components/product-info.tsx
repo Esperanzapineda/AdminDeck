@@ -7,6 +7,7 @@ import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/c
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ProductFormValues } from "./product-form"
 import { Textarea } from "@/components/ui/textarea"
+import { ArrowBigUp } from "lucide-react"
 
 interface GeneralInfoProps {
     categories: { id: string; name: string }[]
@@ -29,7 +30,11 @@ export function ProductGeneralInfo({ categories, brands }: GeneralInfoProps) {
             render={({ field }) => (
                 <FormItem>
                 <FormLabel>Nombre del Producto <span className="text-red-500">*</span></FormLabel>
-                <FormControl><Input placeholder="Ej: Camiseta..." {...field} /></FormControl>
+                <FormControl>
+                    <Input  {...field} 
+                    className="border border-background text-background"
+                    />
+                </FormControl>
                 <FormMessage />
                 </FormItem>
             )}
@@ -40,16 +45,18 @@ export function ProductGeneralInfo({ categories, brands }: GeneralInfoProps) {
             name="imageFile"
             render={({ field: { value, onChange, ...fieldProps } }) => (
                 <FormItem>
-                    <FormLabel>Imagen del producto <span className="text-red-500">*</span></FormLabel>
+                    <FormLabel>Imagen del producto<span className="text-red-500">*</span></FormLabel>
+                    <ArrowBigUp/>
                     <FormControl>
                         <Input
                             {...fieldProps}
-                            placeholder="Seleccione una imagen"
                             type="file"
                             accept="image/*" 
                             onChange={(event) => {
                                 onChange(event.target.files && event.target.files[0]);
                             }}
+                            className="border border-background"
+                            
                         />
                     </FormControl>
                     <FormMessage />
@@ -65,12 +72,18 @@ export function ProductGeneralInfo({ categories, brands }: GeneralInfoProps) {
                 <FormItem>
                     <FormLabel>Categoría <span className="text-red-500">*</span></FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl><SelectTrigger><SelectValue placeholder="Seleccionar" /></SelectTrigger></FormControl>
-                    <SelectContent>
+                    <FormControl>
+                        <SelectTrigger className="border border-background">
+                            <SelectValue 
+                            placeholder="Seleccionar" 
+                            />
+                        </SelectTrigger>
+                            </FormControl>
+                    <SelectContent className="bg-background text-foreground">
                         {categories.map((c) => (<SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>))}
                     </SelectContent>
                     </Select>
-                    <FormMessage />
+                    <FormMessage/>
                 </FormItem>
                 )}
             />
@@ -82,8 +95,12 @@ export function ProductGeneralInfo({ categories, brands }: GeneralInfoProps) {
                 <FormItem>
                     <FormLabel>Marca</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value || ""}>
-                    <FormControl><SelectTrigger><SelectValue placeholder="Seleccionar" /></SelectTrigger></FormControl>
-                    <SelectContent>
+                    <FormControl>
+                        <SelectTrigger className="border border-background">
+                            <SelectValue placeholder="Seleccionar" />
+                        </SelectTrigger>
+                    </FormControl>
+                    <SelectContent className="bg-background text-foreground">
                         {brands.map((b) => (<SelectItem key={b.id} value={b.id}>{b.name}</SelectItem>))}
                     </SelectContent>
                     </Select>
@@ -100,8 +117,12 @@ export function ProductGeneralInfo({ categories, brands }: GeneralInfoProps) {
                 <FormItem>
                 <FormLabel>Género <span className="text-red-500">*</span></FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl><SelectTrigger><SelectValue placeholder="Seleccionar" /></SelectTrigger></FormControl>
-                    <SelectContent>
+                    <FormControl>
+                        <SelectTrigger className="border border-background">
+                            <SelectValue placeholder="Seleccionar" />
+                            </SelectTrigger>
+                        </FormControl>
+                    <SelectContent  className="bg-background text-foreground">
                     <SelectItem value="Hombre">Hombre</SelectItem>
                     <SelectItem value="Mujer">Mujer</SelectItem>
                     <SelectItem value="Unisex">Unisex</SelectItem>
@@ -120,7 +141,9 @@ export function ProductGeneralInfo({ categories, brands }: GeneralInfoProps) {
             render={({ field }) => (
                 <FormItem>
                 <FormLabel>Descripción <span className="text-red-500">*</span></FormLabel>
-                <FormControl><Textarea className="resize-none" {...field} /></FormControl>
+                <FormControl>
+                    <Textarea className="resize-none border border-background" {...field} />
+                </FormControl>
                 <FormMessage />
                 </FormItem>
             )}

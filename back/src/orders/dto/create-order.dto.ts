@@ -1,5 +1,6 @@
+import { OrderStatus } from "@prisma/client";
 import { Type } from "class-transformer";
-import { IsInt, IsNotEmpty, Min, IsUUID, IsNumber, IsString, ValidateNested, IsOptional, IsArray } from "class-validator";
+import { IsInt, IsNotEmpty, Min, IsUUID, IsNumber, IsString, ValidateNested, IsOptional, IsArray, IsEnum } from "class-validator";
 
 //DTO para cada item de la lista
 export class CreateOrderItemDto{
@@ -34,6 +35,10 @@ export class CreateOrderDto {
     @IsUUID()
     @IsOptional()
     userId?: string;
+
+    @IsOptional()
+    @IsEnum(OrderStatus)
+    status?: OrderStatus;
 
     //Validar lista de productos
     @IsArray()
