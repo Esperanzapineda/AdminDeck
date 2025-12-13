@@ -11,8 +11,8 @@ const DashboardLayout: FC<LayoutAuthProps> = ({children}) => {
   return (
     <SidebarProvider>
         <DasboardSidebar />
-            <main>
-                <SidebarTrigger/>
+            <main className="flex-1 w-full overflow-y-auto">
+                <SidebarTrigger className='w-12 h-16'/>
                 <div>
                     { children }
                 </div>

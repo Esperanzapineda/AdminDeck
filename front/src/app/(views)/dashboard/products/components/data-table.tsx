@@ -39,7 +39,7 @@ const TableProducts =<TData, TValue> ({
             <Input
                 placeholder={`Filtrar por ${searchKey === 'clientName' ? 'cliente' : 'nombre'}...`}
                 value= {(table.getColumn(searchKey)?.getFilterValue() as string) ?? ''}
-                onChange={(event) => table.getColumn(searchKey)?.setFilterValue(event.target.value)}
+                onChange={(event) => table.getColumn(searchKey)?.setFilterValue(event.target.value)}   
             />
         </div>
         <div>
@@ -76,12 +76,12 @@ const TableProducts =<TData, TValue> ({
                 </TableBody>
             </Table>
         </div>
-        <div>
+        <div className="flex items-center justify-center mt-8 mb-5">
             <Button variant='outline' onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
-                    Anterior
+            Anterior
             </Button>
-            <Button variant='outline' onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
-                Siguiente
+            <Button variant='outline' onClick={() => table.nextPage()} disabled={!table.getCanNextPage()} className="ml-2">
+            Siguiente
             </Button>
         </div>
     </div>

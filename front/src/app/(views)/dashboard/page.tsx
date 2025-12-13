@@ -1,5 +1,5 @@
 
-import { getDashboardStats } from "@/services/dashboard.services";
+import { getDashboardStats } from "@/services/dashboard.service";
 import DashboardView from "./components/dashboard-view";
 
 export default async function DashboardPage() {

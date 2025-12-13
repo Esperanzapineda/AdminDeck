@@ -120,7 +120,7 @@ async function onSubmit(data: ProductFormValues){
                 <ProductVariants />
 
                 <div className="flex items-center justify-end gap-4">
-                    <Button variant="outline" asChild>
+                    <Button variant="outline" asChild className="hover:bg-foreground hover:text-background">
                         <Link href="/dashboard/products">
                             <ArrowLeft className="mr-2 h-4 w-4" /> Cancelar
                         </Link>

@@ -1,4 +1,4 @@
-import { getCategoryById } from '@/services/categories.services';
+import { getCategoryById } from '@/services/categories.service';
 import { notFound } from 'next/navigation';
 import CategoryForm from '../../components/category-form';
 

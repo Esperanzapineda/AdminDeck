@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { axiosApiBack } from '@/services/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -83,7 +84,9 @@ const LoginForm = () => {
               <FormItem>
                 <FormLabel>Correo electrónico</FormLabel>
                 <FormControl>
-                  <Input placeholder='Ingresa tu correo' {...field} />
+                  <Input placeholder='Ingresa tu correo' {...field} 
+                  className='text-foreground'
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -97,7 +100,9 @@ const LoginForm = () => {
               <FormItem>
                 <FormLabel>Contraseña</FormLabel>
                 <FormControl>
-                  <Input type='password' placeholder='Ingresa tu contraseña' {...field} />
+                  <Input type='password' placeholder='Ingresa tu contraseña' {...field} 
+                  className='text-foreground'
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -106,12 +111,17 @@ const LoginForm = () => {
           <Button 
             type='submit' 
             disabled={isSubmitting}
-            className='w-full mt-4 bg-red-400 hover:bg-red-500'
+            className='w-full mt-4'
           >
             {isSubmitting ? "Verificando..." : "Ingresar"}
           </Button>
         </form>
       </Form>
+
+      <p className='text-foreground text-center mt-4'>
+        Aun no tienes cuenta 
+        <Link href={'/register'}> <span className='text-red-500 hover:text-foreground'> Registrate</span></Link>
+      </p>
       </AuthCard>
   );
 } 

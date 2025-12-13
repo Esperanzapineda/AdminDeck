@@ -38,7 +38,7 @@ const CategoryCellAction = ({ category }: { category: Category }) => {
           <MoreHorizontal className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent align="end" className="bg-foreground text-background">
         <DropdownMenuLabel>Acciones</DropdownMenuLabel>
         
         <DropdownMenuItem onClick={() => navigator.clipboard.writeText(category.id)}>

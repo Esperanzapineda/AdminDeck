@@ -32,8 +32,8 @@ const ActionCell = ({ product }: { product: Product }) => {
                     <span className="sr-only">Abrir menú</span>
                     <MoreHorizontal className="h-4 w-4" />
                 </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            </DropdownMenuTrigger >
+            <DropdownMenuContent align="end" className="bg-foreground text-background">
                 <DropdownMenuLabel>Acciones</DropdownMenuLabel>
                 <DropdownMenuItem onClick={() => navigator.clipboard.writeText(product.id)}>
                     Copiar ID

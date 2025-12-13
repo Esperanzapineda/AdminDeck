@@ -25,7 +25,9 @@ export function ProductVariants() {
           type="button" 
           variant="secondary" 
           size="sm"
-          onClick={() => append({ optionName: "Talla", optionValue: "", price: 0, stock: 0 })}
+          className="bg-background hover:bg-accent/40 text-primary"
+          onClick={() => append({ optionName: "Talla", optionValue: "", price: 0, stock: 0 })
+        }
         >
           <Plus className="mr-2 h-4 w-4" /> Agregar Variante
         </Button>
@@ -33,7 +35,7 @@ export function ProductVariants() {
       
       <CardContent className="space-y-4 pt-4">
         {fields.map((field, index) => (
-          <div key={field.id} className="relative grid gap-4 border p-4 rounded-lg bg-slate-50 dark:bg-slate-900/50">
+          <div key={field.id} className="relative grid gap-4 border p-4 rounded-lg bg-foreground text-background dark:bg-slate-900/50">
             <div className="absolute -top-3 left-4">
                 <Badge variant="outline" className="bg-background">Variante {index + 1}</Badge>
             </div>
@@ -46,21 +48,25 @@ export function ProductVariants() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-xs">Tipo (Ej: Talla)</FormLabel>
-                      <FormControl><Input {...field} /></FormControl>
+                      <FormControl>
+                        <Input {...field} className="border border-background"/>
+                        </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
               </div>
 
-              <div className="md:col-span-3">
+              <div className="md:col-span-3 ">
                 <FormField
                   control={control}
                   name={`variants.${index}.optionValue`}
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-xs">Valor (Ej: XL)</FormLabel>
-                      <FormControl><Input placeholder="XL, Rojo..." {...field} /></FormControl>
+                      <FormControl>
+                        <Input {...field}  className="borde border-background text-background"/>
+                        </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -74,7 +80,9 @@ export function ProductVariants() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-xs">Precio (COP)</FormLabel>
-                      <FormControl><Input type="number" {...field} /></FormControl>
+                      <FormControl>
+                        <Input type="number" {...field} className="border border-background"/>
+                        </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -88,7 +96,9 @@ export function ProductVariants() {
                   render={({ field }) => (
                     <FormItem className="flex-1">
                       <FormLabel className="text-xs">Stock</FormLabel>
-                      <FormControl><Input type="number" {...field} /></FormControl>
+                      <FormControl>
+                        <Input type="number" {...field} className="border border-background"/>
+                        </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}

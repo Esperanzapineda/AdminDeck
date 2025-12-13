@@ -35,14 +35,17 @@ const getProducts = async () : Promise<Product[]> => {
 const ProductsPage =  async () => {
     const data = await getProducts();
     return (
-        <div>
-            <div>
-                <h2 >Productos</h2>
+        <div className="flex-1 space-y-4 p-8 pt-6">
+            <div className="flex items-center justify-between">
+                <div>
+                    <h2 className="text-3xl font-bold tracking-tight">Productos</h2>
+                    <p className="text-foreground">Total: ({data.length}) </p>
+                </div>
                 <Button asChild>
-          <Link href="/dashboard/products/create">
-            <Plus className="mr-2 h-4 w-4" /> Nuevo Producto
-          </Link>
-        </Button>
+                    <Link href="/dashboard/products/create">
+                        <Plus className="mr-2 h-4 w-4" /> Nuevo Producto
+                    </Link>
+                </Button>
             </div>
         
             <div>

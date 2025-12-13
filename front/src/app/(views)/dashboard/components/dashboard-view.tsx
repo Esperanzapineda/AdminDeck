@@ -1,8 +1,8 @@
 'use client'
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { DashboardStats } from "@/services/dashboard.services";
-import { DollarSign, Package, CreditCard, Users} from "lucide-react";
+import { DashboardStats } from "@/services/dashboard.service";
+import { DollarSign, Package, Users, PanelBottomDashed, Database} from "lucide-react";
 
 interface DashboardViewProps {
     stats: DashboardStats;
@@ -18,16 +18,14 @@ export default function DashboardView({ stats }: DashboardViewProps) {
         minimumFractionDigits: 0
     }).format(totalValue);
   }
-
   return (
-    <div >
-      <div >
-        <h2 >Panel Principal</h2>
+    <div className="flex-1 space-y-4 p-8 pt-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-3xl font-bold tracking-tight">Panel Principal</h2>
       </div>
-
-      <div>
-        <Card>
-          <CardHeader >
+      <div className="text-sm flex justify-around font-bold">
+        <Card className="w-80 mt-10">
+          <CardHeader className="flex flex-row justify-between">
             <CardTitle >Ingresos Totales</CardTitle>
             <DollarSign />
           </CardHeader>
@@ -39,9 +37,9 @@ export default function DashboardView({ stats }: DashboardViewProps) {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Inventario</CardTitle>
+        <Card className="w-80 mt-10">
+          <CardHeader className="flex flex-row justify-between">
+            <CardTitle>Inventario</CardTitle> 
             <Package/>
           </CardHeader>
           <CardContent>
@@ -52,10 +50,10 @@ export default function DashboardView({ stats }: DashboardViewProps) {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
+        <Card className="w-80 mt-10">
+          <CardHeader className="flex flex-row justify-between">
             <CardTitle>Órdenes</CardTitle>
-            <CreditCard/>
+            <PanelBottomDashed/>
           </CardHeader>
           <CardContent>
             <div>{stats.totalOrders}</div>
@@ -64,37 +62,21 @@ export default function DashboardView({ stats }: DashboardViewProps) {
             </p>
           </CardContent>
         </Card>
-
-         <Card>
-          <CardHeader>
-            <CardTitle>Clientes</CardTitle>
-            <Users/>
-          </CardHeader>
-          <CardContent>
-            <div>{stats.totalClients}</div>
-            <p>
-              Usuarios registrados
-            </p>
-          </CardContent>
-        </Card>
       </div>
 
-      <div>
-        <Card>
-          <CardHeader>
+      <div className="flex-1 space-y-4 p-8 pt-6">
+        <div className="flex gap-4">
+        <Card className="w-1/2 h-60">
+          <CardHeader className="flex flex-row justify-between">
             <CardTitle>Ventas Recientes</CardTitle>
-            <CardDescription>
-                {stats.recentSales?.length 
-                    ? `Últimas ${stats.recentSales.length} transacciones registradas.` 
-                    : "No hay transacciones recientes."}
-            </CardDescription>
+            <Database/>
           </CardHeader>
           <CardContent>
-            <div >
+            <div>
                 {(!stats.recentSales || stats.recentSales.length === 0) && (
-                     <div>
-                        Aún no se han registrado ventas en el sistema.
-                     </div>
+                    <div>
+                      Aún no se han registrado ventas en el sistema.
+                    </div>
                 )}
                 {stats.recentSales?.map((sale) => (
                     <div key={sale.id} >
@@ -106,9 +88,27 @@ export default function DashboardView({ stats }: DashboardViewProps) {
                     </div>
                 ))}
             </div>
+            <CardDescription className="text-background mt-8">
+                {stats.recentSales?.length 
+                    ? `Últimas ${stats.recentSales.length} transacciones registradas.` 
+                    : "No hay transacciones recientes."}
+            </CardDescription>
           </CardContent>
         </Card>
 
+        <Card className="w-1/2 h-60">
+          <CardHeader className="flex flex-row justify-between">
+            <CardTitle>Clientes</CardTitle>
+            <Users/>
+          </CardHeader>
+          <CardContent>
+            <div>{stats.totalClients}</div>
+            <p>
+              Usuarios registrados
+            </p>
+          </CardContent>
+        </Card>
+      </div>
       </div>
     </div>
   );

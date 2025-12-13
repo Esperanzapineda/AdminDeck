@@ -1,6 +1,7 @@
 import { Boxes, Home, Shapes, ShoppingCart } from 'lucide-react'
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '../ui/sidebar'
 import Link from 'next/link'
+import { Separator } from '../ui/separator'
 
 const items = [
   {
@@ -11,6 +12,11 @@ const items = [
   {
     title: "Categorias",
     url: "/dashboard/categories",
+    icon: Shapes,
+  },
+  {
+    title: "Marcas",
+    url: "/dashboard/brands",
     icon: Shapes,
   },
   {
@@ -30,14 +36,15 @@ const DasboardSidebar = () => {
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className='bg-slate-200'>AdminDeck</SidebarGroupLabel>
+          <SidebarGroupLabel className='hover:bg-foreground hover:text-background'>AdminDeck</SidebarGroupLabel>
+          <Separator/>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <Link href={item.url}>
-                      <item.icon/>
+                    <Link href={item.url} >
+                      <item.icon className='h-20 w-20'/>
                       <span>{item.title}</span>
                     </Link>
                   </SidebarMenuButton>

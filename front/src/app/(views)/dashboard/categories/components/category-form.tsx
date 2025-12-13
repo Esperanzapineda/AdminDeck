@@ -2,6 +2,7 @@
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Separator } from '@/components/ui/separator'
 import { axiosApiBack } from '@/services/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ArrowLeft, Loader2, Save } from 'lucide-react'
@@ -64,13 +65,17 @@ const CategoryForm = ({categoryDataInitial}: CategoryFormProps) => {
     }
     
   return (
-    <div> 
-        <div>
-            <h2>{title}</h2>
+    <div className='ml-10'>
+        <div className="flex items-center justify-between"> 
+            <div className="space-y-1">
+                <h2 className="text-3xl font-bold tracking-tight">{title}</h2>
+                <p className="text-foreground">Añadir una nueva categoria al sistema</p>
+            </div>
         </div>
+        <Separator className="my-4" />
 
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full max-w-md">
                 <FormField
                     control={form.control}
                     name= 'name'
@@ -78,7 +83,7 @@ const CategoryForm = ({categoryDataInitial}: CategoryFormProps) => {
                         <FormItem>
                             <FormLabel>Nombre</FormLabel>
                             <FormControl>
-                                <Input placeholder='Ej: Zapatos' {...field}/>
+                                <Input {...field}/>
                             </FormControl>
                             <FormMessage/>
                         </FormItem>
@@ -98,20 +103,20 @@ const CategoryForm = ({categoryDataInitial}: CategoryFormProps) => {
                                     onChange={(e) => field.onChange(e.target.valueAsNumber)}
                                 />
                             </FormControl>
-                            <FormDescription>Orden de aparicion(opcional)</FormDescription>
+                            <FormDescription className='text-foreground'>Orden de aparicion(opcional)</FormDescription>
                             <FormMessage/>
                         </FormItem>
                     )}
                 />     
-                <div>
-                    <Button asChild>
+                <div className="flex items-center gap-4">
+                    <Button asChild className="bg-background text-foreground hover:bg-foreground hover:text-background border">
                         <Link href='/dashboard/categories'>
-                            <ArrowLeft /> Cancelar
+                            <ArrowLeft  className="mr-2 h-4 w-4" /> Cancelar
                         </Link>
                     </Button>
 
                     <Button type='submit'>
-                        {isLoading && <Loader2 className='animate-spin'/>}
+                        {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                         <Save/> {action}
                     </Button>
                 </div>
