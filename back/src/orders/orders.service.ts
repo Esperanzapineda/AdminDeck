@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { OrderStatus } from '@prisma/client';
+import { UpdateOrderDto } from './dto/update-order.dto';
 
 @Injectable()
 export class OrdersService {
@@ -20,7 +21,7 @@ export class OrdersService {
         ...orderData,
         totalAmount: totalAmount,
         orderNumber: `ORD-${Date.now()}`, // Generar un número de orden simple
-        status: OrderStatus.PENDING,
+        status: orderData.status || OrderStatus.PENDING,
         //Creamos los items dentro de la misma creacion de la orden
         items:{
           create: items.map(item => ({
@@ -61,11 +62,30 @@ export class OrdersService {
     });
   }
 
-  async update (id: string, updateOrderDto: any) {
+  async update (id: string, updateOrderDto: UpdateOrderDto) {
+    const { items, ...rest} = updateOrderDto;
+
     return this.prisma.order.update({
       where: { id },
-      data: updateOrderDto,
-      include: { items: { include: {product: true}}}
+      data: {...rest,
+        items: items && items.length > 0 ? {
+          deleteMany: {},
+          create: items.map((item) => ({
+            quantity: item.quantity,
+            price: item.price,
+            product: {
+              connect: { id: item.productId } 
+            }
+          }))
+        } : undefined, 
+      },
+      include: {
+        items: {
+          include: {
+            product: true
+          }
+        }
+      }
     });
   }
 
@@ -76,5 +96,4 @@ export class OrdersService {
 
     });
   }
-
 }
